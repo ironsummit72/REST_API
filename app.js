@@ -3,8 +3,6 @@ const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const dotenv = require('dotenv');
 dotenv.config();
-
-
 //constants
 const TABLE_NAME = process.env.TABLE_NAME;
 const DB_NAME = process.env.DB_NAME;
@@ -14,8 +12,6 @@ const DB_PASSWORD=process.env.DB_PASSWORD;
 const app = express();
 let status=process.env.status;
 let port=process.env.status==='production'?process.env.PRODUCTION_PORT:process.env.DEV_PORT||1000;
-
-
 const connection = mysql.createConnection({
   host: HOST,
   user: USER,
@@ -23,12 +19,10 @@ const connection = mysql.createConnection({
   database: DB_NAME,
 });
 // checking connection with the database;
-
 connection.connect((err) => {
   if (err) throw err;
   console.log("connection established successful");
 });
-
 // checking if table exists
 const query = `show tables like "${TABLE_NAME}"`;
 connection.query(query, (err, result) => {
@@ -41,7 +35,6 @@ connection.query(query, (err, result) => {
     );
   }
 });
-
 app.use(bodyParser.urlencoded({ extended: false }));
 // get method
 app.get("/", (req, res) => {
@@ -73,7 +66,6 @@ app.delete("/", (req, res) => {
   console.log(where);
   DeleteDataDatabase(where);
 });
-
 app.listen(port, () => {
   console.log(`listening on ${status} ${port}`);
 });
